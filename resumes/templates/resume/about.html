@@ -1,0 +1,52 @@
+{% extends "resume/base.html" %}
+
+{% block content %}
+
+
+<div class="container-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container">
+        <div class="d-flex flex-column justify-content-center" style="min-height: 300px">
+            <h3 class="display-4 text-white text-uppercase">About</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'home' %}">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">About</p>
+            </div>
+        </div>        
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="text-center">
+        <h1 class="fw-bold">About Us</h1>
+        <p class="lead">At <strong>DhvenTech.Org</strong>, we believe that a well-crafted resume is the key to unlocking career opportunities. Our platform simplifies the resume-building process by offering an intuitive and customizable experience for job seekers, professionals, and students alike.</p>
+    </div>
+
+    <div class="mt-5">
+        <h2 class="fw-bold">What We Offer</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Easy Registration & Login:</strong> Sign up effortlessly and start building your resume right away.</li>
+            <li class="list-group-item"><strong>Diverse Templates:</strong> Choose from a range of professionally designed resume templates.</li>
+            <li class="list-group-item"><strong>Customization at Your Fingertips:</strong> Adjust font size, colors, and layout to match your personal style.</li>
+            <li class="list-group-item"><strong>Secure & Simple Payments:</strong> Use Google Pay for hassle-free transactions.</li>
+            <li class="list-group-item"><strong>Admin Verified Downloads:</strong> Your payment is manually verified by our team to ensure security, allowing you to download your resume from your <strong>My Account</strong> section.</li>
+        </ul>
+    </div>
+
+    <div class="mt-5">
+        <h2 class="fw-bold">Why Choose Us?</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>User-Friendly Interface:</strong> Our resume builder is designed to be simple and efficient.</li>
+            <li class="list-group-item"><strong>Professional Quality Resumes:</strong> Impress recruiters with ATS-friendly, visually appealing resumes.</li>
+            <li class="list-group-item"><strong>Affordable & Reliable:</strong> Get premium resume designs at a cost-effective price.</li>
+            <li class="list-group-item"><strong>Secure & Trusted:</strong> Your data and transactions are protected with top-notch security.</li>
+        </ul>
+    </div>
+
+    <div class="text-center mt-5">
+        <h3>Build your resume in minutes and take a step closer to your dream job with <strong>DhvenTech.Org</strong>! 🚀</h3>
+    </div>
+</div>
+
+
+{% endblock %}

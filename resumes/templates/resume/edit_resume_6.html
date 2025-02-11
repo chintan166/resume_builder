@@ -1,0 +1,235 @@
+{% extends "resume/base.html" %}
+
+{% block content %}
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Include SortableJS for Drag-and-Drop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <div class="container mt-4">
+        <h2 class="text-center">Edit Your Resume</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs" id="resumeTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Personal Info</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="professional-tab" data-bs-toggle="tab" data-bs-target="#professional" type="button" role="tab">Professional Summary</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education" type="button" role="tab">Education</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience" type="button" role="tab">Experience</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="internships-tab" data-bs-toggle="tab" data-bs-target="#internships" type="button" role="tab">Internships</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills" type="button" role="tab">Skills</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="certifications-tab" data-bs-toggle="tab" data-bs-target="#certifications" type="button" role="tab">Certifications</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="languages-tab" data-bs-toggle="tab" data-bs-target="#languages" type="button" role="tab">Languages</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="interest-tab" data-bs-toggle="tab" data-bs-target="#interest" type="button" role="tab">Interest</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab">Projects</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab">Profile Photo</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="customization-tab" data-bs-toggle="tab" data-bs-target="#customization" type="button" role="tab">Customization</button>
+                </li>
+            </ul>
+
+            <!-- Tabs Content -->
+            <div class="tab-content mt-3" id="resumeTabsContent">
+                <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                    <h3>Personal Information</h3>
+                    <input type="text" name="full_name" class="form-control" placeholder="Full Name" value="{{ resume.extracted_data.full_name|default:'' }}" required>
+                    <input type="email" name="email" class="form-control mt-2" placeholder="Email" value="{{ resume.extracted_data.email|default:'' }}" required>
+                    <input type="text" name="phone" class="form-control mt-2" placeholder="Phone Number" value="{{ resume.extracted_data.phone }}">
+                    <input type="text" name="linkedin" class="form-control mt-2" placeholder="LinkedIn Profile" value="{{ resume.extracted_data.linkedin }}">
+                </div>
+
+                <div class="tab-pane fade" id="professional" role="tabpanel">
+                    <h3>Professional Summary</h3>
+                    <textarea style="width:50%" name="professional_summary" placeholder="Write a brief summary about your skills and experience">{{ resume.data.professional_summary }}</textarea>
+                </div>
+                
+                <div class="tab-pane fade" id="education" role="tabpanel">
+                    <h3>Education</h3>
+                    <div id="education-container">
+                        <div class="mb-3">
+                            <input type="text" name="degree[]" class="form-control" placeholder="Degree">
+                            <input type="text" name="college[]" class="form-control mt-2" placeholder="College/University">
+                            <input type="text" name="year[]" class="form-control mt-2" placeholder="Year of Graduation">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addEducation()">Add More Education</button>
+                </div>
+                
+                <div class="tab-pane fade" id="experience" role="tabpanel">
+                    <h3>Experience</h3>
+                    <textarea name="experience" class="form-control" placeholder="Describe your work experience">{{ resume.data.experience }}</textarea>
+                </div>
+
+                <div class="tab-pane fade" id="internships" role="tabpanel">
+                    <h3>Internships</h3>
+                    <input type="text" class="form-control mt-2" name="company_name" placeholder="Company Name" value="{{ resume.data.company_name }}">
+                    <input type="text" class="form-control mt-2" name="role" placeholder="Internship Role" value="{{ resume.data.role }}">
+                    <input type="text" class="form-control mt-2" name="duration" placeholder="Internship Duration" value="{{ resume.data.duration }}">
+                </div>
+
+
+                
+                <div class="tab-pane fade" id="skills" role="tabpanel">
+                    <h3>Skills</h3>
+                    <textarea name="skills" class="form-control" placeholder="List your skills">{{ resume.data.skills }}</textarea>
+                </div>
+
+                <div class="tab-pane fade" id="certifications" role="tabpanel">
+                    <h3>Certifications/Award</h3>
+                    <input type="text" name="certifications" placeholder="Certifications" value="{{ resume.data.certifications }}">
+                </div>
+
+                <div class="tab-pane fade" id="languages" role="tabpanel">
+                    <h3>Languages</h3>
+                    <input type="text" name="languages" placeholder="Languages Spoken" value="{{ resume.data.languages }}">
+                </div>
+
+                <div class="tab-pane fade" id="interest" role="tabpanel">
+                    <h3>Interests</h3>
+                    <input type="text" name="interest" placeholder="Interests & Hobbies" value="{{ resume.data.interest }}">
+                </div>
+                
+                <div class="tab-pane fade" id="projects" role="tabpanel">
+                    <h3>Projects</h3>
+                    <div id="project-container">
+                        <div class="mb-3">
+                            <input type="text" name="project_name[]" class="form-control" placeholder="Project Name">
+                            <textarea name="project_description[]" class="form-control mt-2" placeholder="Description"></textarea>
+                            <input type="text" name="technologies[]" class="form-control mt-2" placeholder="Technologies Used">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addProject()">Add More Projects</button>
+                </div>
+
+                <div class="tab-pane fade" id="profile" role="tabpanel">
+                    <h3>Upload Profile Photo</h3>
+                    <input type="file" name="profile_photo" class="form-control" accept="image/*" onchange="previewImage(event)">
+                    <img id="photo-preview" class="img-thumbnail mt-2" style="max-width: 200px; display: none;">
+                </div>
+
+                <div class="tab-pane fade" id="customization" role="tabpanel">
+                    <h3>Customization Options</h3>
+                    <label for="font-family">Select Font</label>
+                    <select name="font_family" id="font-family" class="form-select">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                    </select>
+
+                    <label for="font-size">Select Font Size</label>
+            <input class="form-select" type="number" name="font_size" id="font-size" min="8" max="72" value="{{ resume.data.font_size|default:'12' }}">
+
+            <label for="font-weight">Select Font Weight</label>
+            <select class="form-select" name="font_weight" id="font-weight">
+                <option value="normal" {% if resume.data.font_weight == "normal" %}selected{% endif %}>Normal</option>
+                <option value="bold" {% if resume.data.font_weight == "bold" %}selected{% endif %}>Bold</option>
+                <option value="lighter" {% if resume.data.font_weight == "lighter" %}selected{% endif %}>Lighter</option>
+            </select>
+
+            <label for="font-color">Select Font Color</label>
+            <input class="form-select" type="color" name="font_color" id="font-color" value="{{ resume.data.font_color|default:'#000000' }}">
+
+
+            <label for="font-style">Font Style</label>
+            <select name="font_style" class="form-select" id="font-style">
+                <option value="normal" {% if resume.data.font_style == "normal" %}selected{% endif %}>Normal</option>
+                <option value="italic" {% if resume.data.font_style == "italic" %}selected{% endif %}>Italic</option>
+                <option value="underline" {% if resume.data.font_style == "underline" %}selected{% endif %}>Underline</option>
+            </select>
+
+            <label for="section-spacing">Section Spacing</label>
+            <input class="form-select" type="range" name="section_spacing" id="section-spacing" min="0" max="50" value="{{ resume.data.section_spacing|default:'20' }}">
+
+            <label for="section-alignment">Section Alignment</label>
+            <select class="form-select" name="section_alignment" id="section-alignment">
+                <option value="left" {% if resume.data.section_alignment == "left" %}selected{% endif %}>Left</option>
+                <option value="center" {% if resume.data.section_alignment == "center" %}selected{% endif %}>Center</option>
+                <option value="right" {% if resume.data.section_alignment == "right" %}selected{% endif %}>Right</option>
+            </select>
+
+            <label for="background-color">Background Color</label>
+            <input class="form-select" type="color" name="background_color" id="background-color" value="{{ resume.data.background_color|default:'#ffffff' }}">
+
+            <label for="border-style">Border Style</label>
+            <select class="form-select" name="border_style" id="border-style">
+                <option value="none" {% if resume.data.border_style == "none" %}selected{% endif %}>None</option>
+                <option value="solid" {% if resume.data.border_style == "solid" %}selected{% endif %}>Solid</option>
+                <option value="dashed" {% if resume.data.border_style == "dashed" %}selected{% endif %}>Dashed</option>
+                <option value="dotted" {% if resume.data.border_style == "dotted" %}selected{% endif %}>Dotted</option>
+            </select>
+
+
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-success mt-3">Save Resume</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function addEducation() {
+            let container = document.getElementById("education-container");
+            let newEntry = document.createElement("div");
+            newEntry.classList.add("mb-3");
+            newEntry.innerHTML = `
+                <input type="text" name="degree[]" class="form-control" placeholder="Degree">
+                <input type="text" name="college[]" class="form-control mt-2" placeholder="College/University">
+                <input type="text" name="year[]" class="form-control mt-2" placeholder="Year">
+                <button type="button" class="btn btn-danger mt-2" onclick="this.parentElement.remove()">Remove</button>
+            `;
+            container.appendChild(newEntry);
+        }
+        // Add Project Function
+        function addProject() {
+            let container = document.getElementById("project-container");
+            let newEntry = document.createElement("div");
+            newEntry.classList.add("mb-3");
+            newEntry.innerHTML = `
+                <input type="text" name="project_name[]" class="form-control" placeholder="Project Name">
+                <textarea name="project_description[]" class="form-control mt-2" placeholder="Description"></textarea>
+                <input type="text" name="technologies[]" class="form-control mt-2" placeholder="Technologies Used">
+                <button type="button" class="btn btn-danger mt-2" onclick="this.parentElement.remove()">Remove</button>
+            `;
+            container.appendChild(newEntry);
+        }
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var img = document.getElementById('photo-preview');
+                img.src = reader.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "resume/base.html" %}
+
+{% block content %}
+
+<!-- Header Start -->
+<div class="container-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container">
+        <div class="d-flex flex-column justify-content-center text-center" style="min-height: 300px">
+            <h3 class="display-4 text-white text-uppercase">Login</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'home' %}">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Login</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<!-- Login Form Start -->
+<div class="container d-flex justify-content-center mt-5">
+    <div class="col-lg-5">
+        <div class="card shadow-lg p-4">
+            <h2 class="text-center text-primary mb-4">Login</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label fw-bold">Username</label>
+                    <input type="text" class="form-control" id="id_username" name="username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_password" class="form-label fw-bold">Password</label>
+                    <input type="password" class="form-control" id="id_password" name="password" required>
+                </div>
+
+                {% if error %}
+                <p class="text-danger text-center">{{ error }}</p>
+                {% endif %}
+
+                <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fa fa-sign-in"></i> Login
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="{% url 'register' %}" class="text-primary fw-bold">Register</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login Form End -->
+
+{% endblock %}

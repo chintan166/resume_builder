@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Resume</title>
+    
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .resume-container {
+            width: 21cm; /* A4 width */
+            height: 29.7cm; /* A4 height */
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 12px;
+            margin: 2px 0;
+            line-height: 1.4;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 8px;
+        }
+
+        .section h3 {
+            font-size: 14px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 3px;
+            margin-bottom: 5px;
+        }
+
+        .item {
+            margin-bottom: 5px;
+            padding: 5px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .item h4 {
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        p {
+            font-size: 12px;
+            margin: 2px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                zoom: 0.95; /* Adjust zoom to fit content */
+            }
+
+            .resume-container {
+                width: 100%;
+                height: 100%;
+                border: none;
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>{{ user.username }}'s Resume</h1>
+            <p><strong>Name:</strong> {{ resume.data.full_name|default:'Full Name' }} | 
+               <strong>Email:</strong> <a href="mailto:{{ resume.data.email }}">{{ resume.data.email|default:'your.email@example.com' }}</a> | 
+               <strong>Phone:</strong> {{ resume.data.phone|default:'+91 XXXXXXXXXX' }}</p>
+            <p><strong>LinkedIn:</strong> <a href="{{ resume.data.linkedin }}" target="_blank">{{ resume.data.linkedin|default:'linkedin.com/in/yourprofile' }}</a></p>
+        </div>
+
+        {% if resume.data.professional_summary %}
+        <div class="section">
+            <h3>Professional Summary</h3>
+            <p>{{ resume.data.professional_summary|truncatewords:50 }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.data.education %}
+        <div class="section">
+            <h3>Education</h3>
+            {% for edu in resume.data.education %}
+            <div class="item">
+                <h4>{{ edu.degree }}</h4>
+                <p><strong>College:</strong> {{ edu.college }} | <strong>Year:</strong> {{ edu.year }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if resume.data.projects %}
+        <div class="section">
+            <h3>Projects</h3>
+            {% for project in resume.data.projects %}
+            <div class="item">
+                <h4>{{ project.name }}</h4>
+                <p>{{ project.description|truncatewords:20 }}</p>
+                <p><strong>Tech:</strong> {{ project.technologies }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if resume.data.company_name and resume.data.role and resume.data.duration %}
+        <div class="section">
+            <h3>Internships</h3>
+            <div class="item">
+                <p><strong>Company:</strong> {{ resume.data.company_name }}</p>
+                <p><strong>Role:</strong> {{ resume.data.role }}</p>
+                <p><strong>Duration:</strong> {{ resume.data.duration }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if resume.data.skills %}
+        <div class="section">
+            <h3>Skills</h3>
+            <p>{{ resume.data.skills }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.data.certifications %}
+        <div class="section">
+            <h3>Certifications</h3>
+            <p>{{ resume.data.certifications }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.data.languages or resume.data.interest %}
+        <div class="section">
+            <h3>Languages & Interests</h3>
+            <p><strong>Languages:</strong> {{ resume.data.languages }}</p>
+            <p><strong>Interests:</strong> {{ resume.data.interest }}</p>
+        </div>
+        {% endif %}
+        <div class="section">
+            <a class="btn btn-primary" style="font-size: x-large;color: red;" href="{% url 'checkout_page' resume.id %}">Proceed to Checkout</a>
+        </div>
+    </div>
+    
+</body>
+</html>

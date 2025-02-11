@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Resume</title>
+    
+    <style>
+        body {
+            font-family: {{ font_family|default:'Arial' }};
+            font-size: {{ font_size|default:'14' }}px;
+            font-weight: {{ font_weight|default:'normal' }};
+            background-color: {{ background_color|default:'#f4f4f4' }};
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .resume-container {
+            width: 80%;
+            max-width: 900px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #222;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #222;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            padding: {{ section_spacing|default:'14' }}px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .section p {
+            margin: 5px 0;
+        }
+
+        .contact {
+            text-align: center;
+            padding: 15px;
+            background: #333;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <div class="header">
+            <h1>{{ user.username }}'s Resume</h1>
+        </div>
+
+        <div class="section" id="personal-details">
+            <h3>Personal Details</h3>
+            <p><strong>Name:</strong> {{ full_name|default:'Your Name' }}</p>
+            <p><strong>Email:</strong> {{ email|default:'your.email@example.com' }}</p>
+            <p><strong>Phone:</strong> {{ phone|default:'+91 XXXXXXXXXX' }}</p>
+            <p><strong>LinkedIn:</strong> {{ linkedin|default:'linkedin.com/in/yourprofile' }}</p>
+        </div>
+
+        {% if professional_summary %}
+        <div class="section" id="professional-summary">
+            <h3>Professional Summary</h3>
+            <p>{{ professional_summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if education %}
+        <div class="section" id="education">
+            <h3>Education</h3>
+            {% for edu in education %}
+            <p><strong>Degree:</strong> {{ edu.degree }}</p>
+            <p><strong>College/University:</strong> {{ edu.college }}</p>
+            <p><strong>Year:</strong> {{ edu.year }}</p>
+            <hr>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if projects %}
+        <div class="section" id="projects">
+            <h3>Projects</h3>
+            {% for project in projects %}
+            <p><strong>Project Name:</strong> {{ project.name }}</p>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Technologies Used:</strong> {{ project.technologies }}</p>
+            <hr>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="section" id="internships">
+            <h3>Internships</h3>
+            <p><strong>Company:</strong> {{ company_name|default:'Company Name' }}</p>
+            <p><strong>Role:</strong> {{ role|default:'Internship Role' }}</p>
+            <p><strong>Duration:</strong> {{ duration|default:'MM/YYYY - MM/YYYY' }}</p>
+        </div>
+
+        <div class="section" id="skills">
+            <h3>Skills</h3>
+            <p>{{ skills }}</p>
+        </div>
+
+        <div class="section" id="certifications">
+            <h3>Certifications & Achievements</h3>
+            <p>{{ certifications }}</p>
+        </div>
+
+        <div class="section" id="languages">
+            <h3>Languages & Interests</h3>
+            <p><strong>Languages:</strong> {{ languages }}</p>
+            <p><strong>Interests:</strong> {{ interest }}</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- accounts/templates/accounts/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p>Here is your profile information:</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Address: {{ user.userprofile.address }}</p>
+        <p>Contact Number: {{ user.userprofile.contact_number }}</p>
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+    </div>
+</body>
+</html>

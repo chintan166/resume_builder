@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume Preview</title>
+    <style>
+        body {
+            font-family: {{ resume.data.font_family|default:"Arial" }};
+            font-size: {{ resume.data.font_size|default:"14" }}px;
+            font-weight: {{ resume.data.font_weight|default:"normal" }};
+            color: {{ resume.data.font_color|default:"#333" }};
+            background-color: {{ resume.data.background_color|default:"#f8f9fa" }};
+            margin: 0;
+            padding: 20px;
+        }
+
+        .resume-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .sortable-ghost {
+            background: #f1f1f1;
+            border: 2px dashed #007bff;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: {{ resume.data.font_color|default:"#222" }};
+            padding-bottom: 10px;
+            border-bottom: 2px solid {{ resume.data.font_color|default:"#222" }};
+        }
+
+
+        .section h3 {
+            font-size: 18px;
+            color: {{ resume.data.font_color|default:"#333" }};
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .section p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .order-btn {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .order-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <div class="header">{{ resume.data.full_name|default:"Your Name" }}'s Resume</div>
+        {% if resume.data.professional_summary %}<div class="section"><h3>Professional Summary</h3><p>{{ resume.data.professional_summary }}</p></div>{% endif %}
+        {% if resume.data.email %}<div class="section"><h3>Email</h3><p>{{ resume.data.email }}</p></div>{% endif %}
+        {% if resume.data.phone %}<div class="section"><h3>Phone</h3><p>{{ resume.data.phone }}</p></div>{% endif %}
+        {% if resume.data.linkedin %}<div class="section"><h3>LinkedIn</h3><p>{{ resume.data.linkedin }}</p></div>{% endif %}
+        {% if resume.data.company_name %}<div class="section"><h3>Company</h3><p>{{ resume.data.company_name }}</p></div>{% endif %}
+        {% if resume.data.role %}<div class="section"><h3>Role</h3><p>{{ resume.data.role }}</p></div>{% endif %}
+        {% if resume.data.duration %}<div class="section"><h3>Duration</h3><p>{{ resume.data.duration }}</p></div>{% endif %}
+        {% if resume.data.experience %}<div class="section"><h3>Experience</h3><p>{{ resume.data.experience }}</p></div>{% endif %}
+        {% if resume.data.skills %}<div class="section"><h3>Skills</h3><p>{{ resume.data.skills }}</p></div>{% endif %}
+        {% if resume.data.certifications %}<div class="section"><h3>Certifications</h3><p>{{ resume.data.certifications }}</p></div>{% endif %}
+        {% if resume.data.languages %}<div class="section"><h3>Languages</h3><p>{{ resume.data.languages }}</p></div>{% endif %}
+        {% if resume.data.interest %}<div class="section"><h3>Interests</h3><p>{{ resume.data.interest }}</p></div>{% endif %}
+        
+        {% if resume.data.projects|length > 0 %}
+        <div class="section"><h3>Projects</h3>
+            {% for project in resume.data.projects %}
+            <div class="project-item">
+                <h4>{{ project.name }}</h4>
+                <p><strong>Description:</strong> {{ project.description }}</p>
+                <p><strong>Technologies Used:</strong> {{ project.technologies }}</p>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if resume.data.education|length > 0 %}
+        <div class="section"><h3>Education</h3>
+            {% for edu in resume.data.education %}
+            <div class="education-item">
+                <h4>{{ edu.degree }}</h4>
+                <p><strong>College:</strong> {{ edu.college }}</p>
+                <p><strong>Year:</strong> {{ edu.year }}</p>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+        {% endif %}
+       
+        <div class="section">
+            <a class="btn btn-primary" style="font-size: x-large;color: red;" href="{% url 'checkout_page' resume.id %}">Proceed to Checkout</a>
+        </div>
+    </div>
+</body>
+</html>

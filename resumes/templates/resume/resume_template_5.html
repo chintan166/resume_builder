@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Resume</title>
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 10px;
+}
+
+/* Resume Container */
+.resume-container {
+    width: 21cm;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #3498db;
+    margin-bottom: 15px;
+}
+
+.header h1 {
+    font-size: 20px;
+    color: #222;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #3498db;
+}
+
+.header p {
+    font-size: 12px;
+    margin: 2px 0;
+    line-height: 1.4;
+    border-bottom:none;
+}
+
+a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 20px;  /* Space between sections */
+    padding-bottom: 10px;
+}
+
+.section h3 {
+    font-size: 14px;
+    color: #2c3e50;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 5px 0;
+    padding-bottom: 3px;
+    text-align: left;
+}
+
+/* Text Formatting */
+p {
+    font-size: 12px;
+    margin: 2px 0;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* Items inside sections (Education, Projects, Internships) */
+.item {
+    margin-bottom: 8px;
+    padding: 5px;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+.item h4 {
+    font-size: 13px;
+    margin: 0 0 3px 0;
+    text-align: left;
+    font-weight: 600;
+}
+
+.item p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+
+
+.intern_p {
+    display: inline; /* Keeps all <p> in one line */
+    margin-right: 10px; /* Optional: Adds spacing between inline elements */
+}
+
+.intern_p::after {
+    content: " | "; /* Adds a separator */
+}
+.intern_p:last-child::after {
+    content: ""; /* Removes separator after the last item */
+}
+
+
+/* Print Styles */
+@media print {
+    body {
+        zoom: 0.95;
+    }
+
+    .resume-container {
+        width: 100%;
+        height: auto;
+        border: none;
+        page-break-after: avoid;
+    }
+
+    .section {
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+    }
+    
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .section h3 {
+        font-size: 13px;
+    }
+
+    p {
+        font-size: 11px;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>{{ user.username }}'s Resume</h1>
+            <p><strong>Name:</strong> {{ full_name|default:'Full Name' }} | 
+               <strong>Email:</strong> <a href="mailto:{{ email }}">{{ email|default:'your.email@example.com' }}</a> | 
+               <strong>Phone:</strong> {{ phone|default:'+91 XXXXXXXXXX' }}</p>
+            <p><strong>LinkedIn:</strong> <a href="{{ linkedin }}" target="_blank">{{ linkedin|default:'linkedin.com/in/yourprofile' }}</a></p>
+        </div>
+
+        {% if professional_summary %}
+        <div class="section">
+            <h3>Professional Summary</h3>
+            <p>{{ professional_summary|truncatewords:50 }}</p>
+        </div>
+        {% endif %}
+
+        {% if education %}
+        <div class="section">
+            <h3>Education</h3>
+            {% for edu in education %}
+                <p class="edu_p" style="margin: 0;"><strong>Degree:</strong> {{ edu.degree }}</p>
+                <p class="edu_p" style="margin: 0;"><strong>College:</strong> {{ edu.college }} | <strong>Year:</strong> {{ edu.year }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if projects %}
+        <div class="section">
+            <h3>Projects</h3>
+            {% for project in projects %}
+            
+                <p><strong>Project Name:</strong> {{ project.name }}</p>
+                <p><strong>Description:</strong>{{ project.description|truncatewords:20 }}</p>
+                <p><strong>Tech:</strong> {{ project.technologies }}</p>
+            
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if company_name and role and duration %}
+        <div class="section">
+            <h3>Internships</h3>
+            
+                <p class="intern_p"><strong>Company:</strong> {{ company_name }}</p>
+                <p class="intern_p"><strong>Role:</strong> {{ role }}</p>
+                <p class="intern_p"><strong>Duration:</strong> {{ duration }}</p>
+            
+        </div>
+        {% endif %}
+
+        {% if skills %}
+        <div class="section">
+            <h3>Skills</h3>
+            <p>{{ skills }}</p>
+        </div>
+        {% endif %}
+
+        {% if certifications %}
+        <div class="section">
+            <h3>Certifications</h3>
+            <p>{{ certifications }}</p>
+        </div>
+        {% endif %}
+
+        {% if languages or interest %}
+        <div class="section">
+            <h3>Languages & Interests</h3>
+            <p><strong>Languages:</strong> {{ languages }}</p>
+            <p><strong>Interests:</strong> {{ interest }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

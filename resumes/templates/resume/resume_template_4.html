@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Resume</title>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .resume-container {
+            width: 80%;
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding-bottom: 2px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #222;
+        }
+
+        .header p {
+            float:left;
+            text-align:left;
+            font-size: 14px;
+            color: #666;
+            border-bottom: none;
+        }
+
+        /* Sections */
+        .section {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section p {
+            background: none;
+            box-shadow: none;
+        }
+
+
+        .section h3 {
+            font-size: 22px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .item {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .item h4 {
+            font-size: 18px;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>{{ user.username }}'s Resume</h1>
+            <p><strong>Name:</strong> {{ full_name|default:'full_name' }}</p>
+            <p><strong>Email:</strong> <a href="mailto:{{ email }}">{{ email|default:'your.email@example.com' }}</a></p>
+            <p><strong>Phone:</strong> {{ phone|default:'+91 XXXXXXXXXX' }}</p>
+            <p><strong>LinkedIn:</strong> <a href="{{ linkedin }}" target="_blank">{{ linkedin|default:'linkedin.com/in/yourprofile' }}</a></p>
+        </div>
+
+        {% if professional_summary %}
+        <div class="section">
+            <h3>Professional Summary</h3>
+            <p>{{ professional_summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if education %}
+        <div class="section">
+            <h3>Education</h3>
+            {% for edu in education %}
+            <div class="item">
+                <h4>{{ edu.degree }}</h4>
+                <p><strong>College/University:</strong> {{ edu.college }}</p>
+                <p><strong>Year:</strong> {{ edu.year }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if projects %}
+        <div class="section">
+            <h3>Projects</h3>
+            {% for project in projects %}
+            <div class="item">
+                <h4>{{ project.name }}</h4>
+                <p><strong>Description:</strong> {{ project.description }}</p>
+                <p><strong>Technologies Used:</strong> {{ project.technologies }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="section">
+            <h3>Internships</h3>
+            <div class="item">
+                <p><strong>Company:</strong> {{ company_name|default:'Company Name' }}</p>
+                <p><strong>Role:</strong> {{ role|default:'Internship Role' }}</p>
+                <p><strong>Duration:</strong> {{ duration|default:'MM/YYYY - MM/YYYY' }}</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Skills</h3>
+            <p>{{ skills }}</p>
+        </div>
+
+        <div class="section">
+            <h3>Certifications & Achievements</h3>
+            <p>{{ certifications }}</p>
+        </div>
+
+        <div class="section">
+            <h3>Languages & Interests</h3>
+            <p><strong>Languages:</strong> {{ languages }}</p>
+            <p><strong>Interests:</strong> {{ interest }}</p>
+        </div>
+
+    </div>
+</body>
+</html>

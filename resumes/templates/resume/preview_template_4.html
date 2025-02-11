@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Resume</title>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .resume-container {
+            width: 80%;
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: #222;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        /* Sections */
+        .section {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h3 {
+            font-size: 22px;
+            color: #2c3e50;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .item {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .item h4 {
+            font-size: 18px;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>{{ user.username }}'s Resume</h1>
+            <p><strong>Email:</strong> <a href="mailto:{{ resume.data.email }}">{{ resume.data.email|default:'your.email@example.com' }}</a></p>
+            <p><strong>Phone:</strong> {{ resume.data.phone|default:'+91 XXXXXXXXXX' }}</p>
+            <p><strong>LinkedIn:</strong> <a href="{{ resume.data.linkedin }}" target="_blank">{{ resume.data.linkedin|default:'linkedin.com/in/yourprofile' }}</a></p>
+        </div>
+
+        {% if resume.data.professional_summary %}
+        <div class="section">
+            <h3>Professional Summary</h3>
+            <p>{{ resume.data.professional_summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.data.education %}
+        <div class="section">
+            <h3>Education</h3>
+            {% for edu in resume.data.education %}
+            <div class="item">
+                <h4>{{ edu.degree }}</h4>
+                <p><strong>College/University:</strong> {{ edu.college }}</p>
+                <p><strong>Year:</strong> {{ edu.year }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if resume.data.projects %}
+        <div class="section">
+            <h3>Projects</h3>
+            {% for project in resume.data.projects %}
+            <div class="item">
+                <h4>{{ project.name }}</h4>
+                <p><strong>Description:</strong> {{ project.description }}</p>
+                <p><strong>Technologies Used:</strong> {{ project.technologies }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="section">
+            <h3>Internships</h3>
+            <div class="item">
+                <p><strong>Company:</strong> {{ resume.data.company_name|default:'Company Name' }}</p>
+                <p><strong>Role:</strong> {{ resume.data.role|default:'Internship Role' }}</p>
+                <p><strong>Duration:</strong> {{ resume.data.duration|default:'MM/YYYY - MM/YYYY' }}</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Skills</h3>
+            <p>{{ resume.data.skills }}</p>
+        </div>
+
+        <div class="section">
+            <h3>Certifications & Achievements</h3>
+            <p>{{ resume.data.certifications }}</p>
+        </div>
+
+        <div class="section">
+            <h3>Languages & Interests</h3>
+            <p><strong>Languages:</strong> {{ resume.data.languages }}</p>
+            <p><strong>Interests:</strong> {{ resume.data.interest }}</p>
+        </div>
+
+        <a href="{% url 'checkout_page' resume.id %}" class="order-btn">Proceed to Checkout</a>
+    </div>
+</body>
+</html>

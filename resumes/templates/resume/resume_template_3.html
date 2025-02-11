@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Resume</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .resume-container {
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Use Table for Sidebar & Main Content */
+        .layout-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 30%;
+            background: #2c3e50;
+            color: #fff;
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #fff;
+            padding-bottom: 10px;
+        }
+
+        .sidebar p {
+            width: 100%;
+            font-size: 12px;
+            margin: 2px 0; /* Reduce top and bottom margin */
+            padding: 0; /* Remove any extra padding */
+            line-height: 2.2; /* Adjust line spacing */
+        }
+
+        .sidebar a {
+            color: #1abc9c;
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 70%;
+            padding: 20px;
+            vertical-align: top;
+        }
+
+        .main-content .section p {
+            width: 100%;
+            word-wrap: break-word;
+            margin-top: 5px;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .main-content {
+            font-size: 16px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            padding-bottom: 3px;
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .item {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <table class="layout-table">
+            <tr>
+                <!-- Sidebar -->
+                <td class="sidebar">
+                    <h2>{{ user.username }}</h2>
+                    <p><strong>Name:</strong> {{ full_name|default:'Your Name' }}</p>
+                    <p><strong>Email:</strong> <a href="mailto:{{ email }}">{{ email|default:'your.email@example.com' }}</a></p>
+                    <p><strong>Phone:</strong> {{ phone|default:'+91 XXXXXXXXXX' }}</p>
+                </td>
+
+                <!-- Main Content -->
+                <td class="main-content">
+                    {% if professional_summary %}
+                    <div class="section">
+                        <h3>Professional Summary</h3>
+                        <p style="">{{ professional_summary | linebreaksbr }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if education %}
+                    <div class="section">
+                        <h3>Education</h3>
+                        {% for edu in education %}
+                        <div class="item">
+                            <h4>{{ edu.degree }}</h4>
+                            <p><strong>College/University:</strong> {{ edu.college }}</p>
+                            <p><strong>Year:</strong> {{ edu.year }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if projects %}
+                    <div class="section">
+                        <h3>Projects</h3>
+                        {% for project in projects %}
+                        <div class="item">
+                            <h4>{{ project.name }}</h4>
+                            <p><strong>Description:</strong> {{ project.description }}</p>
+                            <p><strong>Technologies Used:</strong> {{ project.technologies }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if company_name and role and duration %}
+                    <div class="section">
+                        <h3>Internships</h3>
+                        <div class="item">
+                            <h4>{{ company_name|default:'Company Name' }}</h4>
+                            <p><strong>Role:</strong> {{ role|default:'Internship Role' }}</p>
+                            <p><strong>Duration:</strong> {{ duration|default:'MM/YYYY - MM/YYYY' }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if skills %}
+                    <div class="section">
+                        <h3>Skills</h3>
+                        <p>{{ skills }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if certifications %}
+                    <div class="section">
+                        <h3>Certifications & Achievements</h3>
+                        <p>{{ certifications }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="section">
+                        <h3>Languages & Interests & linkedin</h3>
+                        <span><strong>Languages:</strong> {{ languages }}</span> <br/>
+                        <span><strong>Interests:</strong> {{ interest }}</span> <br/>
+                        <span><strong>LinkedIn:</strong> <a href="{{ linkedin }}" target="_blank">{{ linkedin|default:'linkedin.com/in/yourprofile' }}</a></span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

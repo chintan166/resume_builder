@@ -1,0 +1,74 @@
+{% extends "resume/base.html" %}
+
+{% block content %}
+
+<!-- Header Start -->
+<div class="container-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container">
+        <div class="d-flex flex-column justify-content-center text-center" style="min-height: 300px">
+            <h3 class="display-4 text-white text-uppercase">Register</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'home' %}">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Register</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<!-- Registration Form Start -->
+<div class="container d-flex justify-content-center mt-5">
+    <div class="col-lg-6">
+        <div class="card shadow-lg p-4">
+            <h2 class="text-center text-primary mb-4">Create an Account</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label fw-bold">Username</label>
+                    <input type="text" class="form-control" name="username" id="id_username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_email" class="form-label fw-bold">Email</label>
+                    <input type="email" class="form-control" name="email" id="id_email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_address" class="form-label fw-bold">Address</label>
+                    <textarea class="form-control" name="address" id="id_address" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_contact_number" class="form-label fw-bold">Contact Number</label>
+                    <input type="text" class="form-control" name="contact_number" id="id_contact_number" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_password1" class="form-label fw-bold">Password</label>
+                    <input type="password" class="form-control" name="password1" id="id_password1" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_password2" class="form-label fw-bold">Confirm Password</label>
+                    <input type="password" class="form-control" name="password2" id="id_password2" required>
+                </div>
+
+                <div class="d-grid mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fa fa-user-plus"></i> Register
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <p>Already have an account? <a href="{% url 'login' %}" class="text-primary fw-bold">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Registration Form End -->
+
+{% endblock %}

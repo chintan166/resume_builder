@@ -1,0 +1,75 @@
+{% extends "resume/base.html" %}
+
+{% block content %}
+
+<!-- Header Start -->
+<div class="container-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container">
+        <div class="d-flex flex-column justify-content-center text-center" style="min-height: 300px">
+            <h3 class="display-4 text-white text-uppercase">Checkout</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'home' %}">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Checkout</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center text-primary mb-4">Complete Your Payment</h3>
+
+                <p class="text-center">Scan the QR code below to make the payment:</p>
+
+                <div class="text-center mb-4">
+                    <img src="" alt="QR Code" class="img-fluid" width="200">
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="qr_payment" class="form-label fw-bold">Upload Payment Screenshot:</label>
+                        <input type="file" class="form-control" id="qr_payment" name="qr_payment" accept="image/*" required onchange="previewImage(event)">
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div id="imagePreviewContainer" class="text-center mt-3" style="display: none;">
+                        <p class="fw-bold">Preview:</p>
+                        <img id="imagePreview" src="#" alt="Payment Screenshot" class="img-thumbnail" width="200">
+                    </div>
+
+                    <div class="d-grid mt-4" style="text-align:center;">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fa fa-check-circle"></i> Submit Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Real-time File Preview -->
+<script>
+function previewImage(event) {
+    let input = event.target;
+    let reader = new FileReader();
+    
+    reader.onload = function() {
+        let imagePreview = document.getElementById("imagePreview");
+        imagePreview.src = reader.result;
+        document.getElementById("imagePreviewContainer").style.display = "block";
+    };
+
+    if (input.files && input.files[0]) {
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+
+{% endblock %}

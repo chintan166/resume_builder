@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ resume.data.full_name|default:"Professional Resume" }}</title>
+    <style>
+        body {
+            font-family: {{ resume.data.font_family|default:"Arial, sans-serif" }};
+            font-size: {{ resume.data.font_size|default:"14" }}px;
+            font-weight: {{ resume.data.font_weight|default:"normal" }};
+            color: {{ resume.data.font_color|default:"#333" }};
+            background-color: {{ resume.data.background_color|default:"#f8f9fa" }};
+            margin: 0;
+            padding: 40px;
+        }
+
+        .resume-container {
+            display: flex;
+            max-width: 900px;
+            margin: auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 30%;
+            background: #222;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid white;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .main-content {
+            width: 70%;
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            color: {{ resume.data.font_color|default:"#222" }};
+            padding-bottom: 10px;
+            border-bottom: 3px solid {{ resume.data.font_color|default:"#222" }};
+        }
+
+        .section {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h3 {
+            font-size: 20px;
+            color: {{ resume.data.font_color|default:"#444" }};
+            margin-bottom: 12px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .order-btn {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        .order-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <div class="sidebar">
+            <!-- Profile Photo -->
+            {% if profile_photo %}
+                <img src="{{ profile_photo }}" alt="Profile Photo" class="profile-photo">
+            {% endif %}
+
+            <h2>{{ resume.data.full_name|default:"Your Name" }}</h2>
+            <p><strong>Email:</strong> {{ resume.data.email|default:"your.email@example.com" }}</p>
+            <p><strong>Phone:</strong> {{ resume.data.phone|default:"+91 XXXXXXXXXX" }}</p>
+            <p><strong>LinkedIn:</strong> <a href="{{ resume.data.linkedin }}" target="_blank" style="color: white;">{{ resume.data.linkedin }}</a></p>
+        </div>
+        
+        <div class="main-content">
+            <div class="header">{{ resume.data.full_name|default:"Your Name" }}</div>
+
+            {% if resume.data.professional_summary %}
+                <div class="section">
+                    <h3>Professional Summary</h3>
+                    <p>{{ resume.data.professional_summary }}</p>
+                </div>
+            {% endif %}
+
+        {% if resume.data.education %}
+        <div class="section">
+            <h3>Education</h3>
+            {% for edu in resume.data.education %}
+            <div class="item">
+                <h4>{{ edu.degree }}</h4>
+                <p><strong>College:</strong> {{ edu.college }} | <strong>Year:</strong> {{ edu.year }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if resume.data.projects %}
+        <div class="section">
+            <h3>Projects</h3>
+            {% for project in resume.data.projects %}
+            <div class="item">
+                <h4>{{ project.name }}</h4>
+                <p>{{ project.description|truncatewords:20 }}</p>
+                <p><strong>Tech:</strong> {{ project.technologies }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if resume.data.company_name and resume.data.role and resume.data.duration %}
+        <div class="section">
+            <h3>Internships</h3>
+            <div class="item">
+                <p><strong>Company:</strong> {{ resume.data.company_name }}</p>
+                <p><strong>Role:</strong> {{ resume.data.role }}</p>
+                <p><strong>Duration:</strong> {{ resume.data.duration }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+            {% if resume.data.skills %}
+                <div class="section">
+                    <h3>Skills</h3>
+                    <p>{{ resume.data.skills }}</p>
+                </div>
+            {% endif %}
+            {% if resume.data.certifications %}
+        <div class="section">
+            <h3>Certifications</h3>
+            <p>{{ resume.data.certifications }}</p>
+        </div>
+        {% endif %}
+
+        {% if resume.data.languages or resume.data.interest %}
+        <div class="section">
+            <h3>Languages & Interests</h3>
+            <p><strong>Languages:</strong> {{ resume.data.languages }}</p>
+            <p><strong>Interests:</strong> {{ resume.data.interest }}</p>
+        </div>
+        {% endif %}
+
+            
+
+            <a href="{% url 'checkout_page' resume.id %}" class="order-btn">Proceed to Checkout</a>
+        </div>
+    </div>
+</body>
+</html>

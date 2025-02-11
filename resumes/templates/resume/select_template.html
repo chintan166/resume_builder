@@ -1,0 +1,17 @@
+{% extends "resume/base.html" %}
+
+{% block content %}
+
+    <h2>Select a Resume Template</h2>
+    <ul>
+        {% for template in templates %}
+            <li>
+                <a href="{% url 'edit_resume' template.id %}">
+                    <img src="{{ template.preview_image.url }}" alt="{{ template.name }}">
+                    <p>{{ template.name }}</p>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}
